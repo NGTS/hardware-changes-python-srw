@@ -1,3 +1,3 @@
-web: gunicorn app:app --preload
-db: mysqld_safe --bind-address 127.0.0.1
+# web: gunicorn app:app --preload --bind 0.0.0.0:8000 -w 4
+web: python -u app.py
 guard: bundle exec guard -i
