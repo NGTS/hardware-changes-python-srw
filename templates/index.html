@@ -5,11 +5,10 @@
 <button id='add-form'>Add hardware change</button>
 
 <form action="/submit_changes/" method="post">
-    <button id="submit-form" disabled>Submit</button>
-
     <div id="forms"></div>
     <label for="comments">Comments</label><br />
-    <textarea name="comments" id="comments" rows="10" cols="50"></textarea>
+    <textarea name="comments" id="comments" rows="10" cols="50"></textarea><br />
+    <button id="submit-form" disabled>Submit</button>
 </form>
 
 {% endblock %}
