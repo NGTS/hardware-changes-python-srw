@@ -63,7 +63,7 @@ def add_change():
 def submit_changes():
     print "Parsing changes"
     form = request.form
-    return str(form)
+    return render_template("results.html", results=form)
 
 
 if __name__ == '__main__':
