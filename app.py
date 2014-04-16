@@ -49,8 +49,7 @@ def add_change():
 def submit_changes():
     print "Parsing changes"
     form = request.form
-    print form
-    return redirect('/')
+    return str(form)
 
 
 if __name__ == '__main__':
