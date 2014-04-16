@@ -19,7 +19,21 @@ class DatabaseStore(object):
 
 class Camera(RenderView, DatabaseStore):
 
-    IDS = range(14440, 14440+13)
+    IDS = sorted([
+            13338,
+            13339,
+            13340,
+            13341,
+            13342,
+            14028,
+            14029,
+            14030,
+            14031,
+            14032,
+            14033,
+            14034,
+            14035,
+            ])
 
     def __init__(self, form_id):
         self.form_id = form_id
