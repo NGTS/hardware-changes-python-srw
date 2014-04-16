@@ -1,0 +1,132 @@
+<div class="input-section" id="changes-{{ form_id }}">
+    <div class="changes">
+        <div id="camera-{{ form_id }}">
+            <b class="toggler">Camera</b>
+            <div class="hideable">
+                {{ camera.render() }}
+            </div>
+        </div>
+
+        <div id="mount-{{ form_id }}">
+            <b class="toggler">Mount</b>
+            <div class="hideable">
+                {% include "mount_settings.html" %}
+            </div>
+        </div>
+
+        <div id="telescope-{{ form_id }}">
+            <b class="toggler">Telescope</b>
+            <div class="hideable">
+                {% include "telescope_settings.html" %}
+            </div>
+        </div>
+
+
+        <div id="focuser-{{ form_id }}">
+            <b class="toggler">Focuser</b>
+            <div class="hideable">
+                {% include "focuser_settings.html" %}
+            </div>
+        </div>
+    </div>
+    <hr />
+</div>
+
+{#
+
+<!-- <div class="row"> -->
+<!--     <div class="form-group"> -->
+<!--         <label class="col-sm-2 control-label" for="pillar-choice">Pillar</label> -->
+<!--         <div class='col-sm-6'> -->
+<!--             <select class="form-control" id="pilar-choice" name="pillar-choice"> --> 
+<!--                 <option value="" selected="selected"></option> -->
+<!--                 <option value="1" >N1</option> -->
+<!--                 <option value="2" >N2</option> -->
+<!--                 <option value="3" >S1</option> -->
+<!--             </select> -->
+<!--         </div> --> 
+<!--     </div> -->
+<!--     <div class="form-group"> -->
+<!--         <label class="col-sm-2 control-label" for="input-date">Date</label> -->
+<!--         <div class='col-sm-6'> -->
+<!--             <input type="date" name="submit-date" data-format="dd/mm/yy" class="form-control"> -->
+<!--         </div> -->
+<!--     </div> -->
+
+<!--     <div class="form-group"> -->
+<!--         <label class="col-sm-2 control-label" for="camera-id">Camera id</label> -->
+<!--         <div class='col-sm-6'> -->
+<!--             <select class="form-control" id="pilar-choice" name="pillar-choice"> --> 
+<!--                 <option value="" selected="selected"></option> -->
+<!--                 <option value="1" >13444</option> -->
+<!--                 <option value="2" >13445</option> -->
+<!--                 <option value="3" >13446</option> -->
+<!--             </select> -->
+<!--         </div> --> 
+<!--     </div> -->
+
+<!--     <div class="form-group"> -->
+<!--         <label class="col-sm-2 control-label" for="camera-changes">Camera Changes</label> -->
+<!--     </div> -->
+
+<!-- </div> --> 
+<!-- <label class="description" for="element_5">Camera changes </label> -->
+<!-- <span> -->
+<!--     <input id="element_5_1" name="element_5_1" class="element checkbox" type="checkbox" value="1" /> -->
+<!--     <label class="choice" for="element_5_1">Replaced camera</label> -->
+<!--     <input id="element_5_2" name="element_5_2" class="element checkbox" type="checkbox" value="1" /> -->
+<!--     <label class="choice" for="element_5_2">Cleaned</label> -->
+
+<!-- </span> --> 
+<!-- <h3>Telescope</h3> -->
+<!-- <p></p> -->
+<!-- <label class="description" for="element_10">Telescope changes </label> -->
+<!-- <span> -->
+<!--     <input id="element_10_1" name="element_10_1" class="element checkbox" type="checkbox" value="1" /> -->
+<!--     <label class="choice" for="element_10_1">First option</label> -->
+<!--     <input id="element_10_2" name="element_10_2" class="element checkbox" type="checkbox" value="1" /> -->
+<!--     <label class="choice" for="element_10_2">Second option</label> -->
+<!--     <input id="element_10_3" name="element_10_3" class="element checkbox" type="checkbox" value="1" /> -->
+<!--     <label class="choice" for="element_10_3">Third option</label> -->
+
+<!-- </span> --> 
+<!-- <h3>Mount</h3> -->
+<!-- <p></p> -->
+<!-- <label class="description" for="element_11">Mount changes </label> -->
+<!-- <span> -->
+<!--     <input id="element_11_1" name="element_11_1" class="element checkbox" type="checkbox" value="1" /> -->
+<!--     <label class="choice" for="element_11_1">First option</label> -->
+<!--     <input id="element_11_2" name="element_11_2" class="element checkbox" type="checkbox" value="1" /> -->
+<!--     <label class="choice" for="element_11_2">Second option</label> -->
+<!--     <input id="element_11_3" name="element_11_3" class="element checkbox" type="checkbox" value="1" /> -->
+<!--     <label class="choice" for="element_11_3">Third option</label> -->
+
+<!-- </span> --> 
+<!-- <h3>Focuser</h3> -->
+<!-- <p></p> -->
+<!-- <label class="description" for="element_12">Focuser changes </label> -->
+<!-- <span> -->
+<!--     <input id="element_12_1" name="element_12_1" class="element checkbox" type="checkbox" value="1" /> -->
+<!--     <label class="choice" for="element_12_1">First option</label> -->
+<!--     <input id="element_12_2" name="element_12_2" class="element checkbox" type="checkbox" value="1" /> -->
+<!--     <label class="choice" for="element_12_2">Second option</label> -->
+<!--     <input id="element_12_3" name="element_12_3" class="element checkbox" type="checkbox" value="1" /> -->
+<!--     <label class="choice" for="element_12_3">Third option</label> -->
+
+<!-- </span> --> 
+<!-- <label class="description" for="element_13">Signed off </label> -->
+<!-- <span> -->
+<!--     <input id="element_13_1" name= "element_13_1" class="element text" maxlength="255" size="8" value=""/> -->
+<!--     <label>First</label> -->
+<!-- </span> -->
+<!-- <span> -->
+<!--     <input id="element_13_2" name= "element_13_2" class="element text" maxlength="255" size="14" value=""/> -->
+<!--     <label>Last</label> -->
+<!-- </span> --> 
+<!-- <label class="description" for="element_9">Comments </label> -->
+<!-- <div> -->
+<!--     <textarea id="element_9" name="element_9" class="element textarea medium"></textarea> --> 
+<!-- </div> --> 
+<!-- </div> -->
+
+#}

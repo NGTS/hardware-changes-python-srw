@@ -1,0 +1,11 @@
+.hideable {
+    display: none;
+}
+
+.changes {
+    padding: 5px 20px;
+}
+
+.toggler {
+    cursor: pointer;
+}
