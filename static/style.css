@@ -9,3 +9,16 @@
 .toggler {
     cursor: pointer;
 }
+
+body {
+    background-color: #4B7399;
+}
+
+div#outer-page {
+    width: 70%;
+    background-color: white;
+    margin: 0 auto;
+    margin-top: 20px;
+    padding: 20px 40px;
+    border 1px solid black;
+}
