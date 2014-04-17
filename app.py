@@ -59,11 +59,14 @@ def add_new_form():
 def add_change():
     return redirect('/')
 
-@app.route('/submit_changes/', methods=['POST'])
+@app.route('/submit_changes/', methods=['GET', 'POST'])
 def submit_changes():
-    print "Parsing changes"
-    form = request.form
-    return render_template("results.html", results=form)
+    if request.method == 'POST':
+        print "Parsing changes"
+        form = request.form
+        return render_template("results.html", results=form)
+    else:
+        return redirect('/')
 
 
 if __name__ == '__main__':
