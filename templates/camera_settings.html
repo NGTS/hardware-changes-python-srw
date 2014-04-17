@@ -1,11 +1,15 @@
-<label for="camera_id_{{ camera.form_id }}">Camera ID</label>
-<select name="camera_id_{{ camera.form_id }}" id="camera_id_{{ camera.form_id }}">
-    <option value=""></option>
-    {% for camera_id in camera.IDS %}
+<fieldset>
+    <legend>Camera settings</legend>
+    <label for="camera_id_{{ camera.form_id }}">Camera ID</label>
+    <select name="camera_id_{{ camera.form_id }}" id="camera_id_{{ camera.form_id }}">
+        <option value=""></option>
+        {% for camera_id in camera.IDS %}
         <option value="{{ camera_id }}">{{ camera_id }}</option>
-    {% endfor %}
-</select>
-<input type="checkbox" name="cleaned_lenses_{{ camera.form_id }}" value=1>Cleaned lenses</input>
-<input type="checkbox" name="other_change_1_{{ camera.form_id }}" value=1>Other change 1</input>
-<input type="checkbox" name="other_change_2_{{ camera.form_id }}" value=1>Other change 2</input>
-<input type="checkbox" name="other_change_3_{{ camera.form_id }}" value=1>Other change 3</input>
+        {% endfor %}
+    </select>
+
+    <input type="checkbox" name="cleaned_lenses_{{ camera.form_id }}" value=1>Cleaned lenses</input>
+    <input type="checkbox" name="other_change_1_{{ camera.form_id }}" value=1>Other change 1</input>
+    <input type="checkbox" name="other_change_2_{{ camera.form_id }}" value=1>Other change 2</input>
+    <input type="checkbox" name="other_change_3_{{ camera.form_id }}" value=1>Other change 3</input>
+</fieldset>
