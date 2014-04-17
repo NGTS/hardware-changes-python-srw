@@ -1,5 +1,5 @@
 function makeHideable(i, hideable) {
-    $(hideable).toggle();
+    $(hideable).slideToggle('fast');
 }
 
 function addClickHandlers(new_data) {
