@@ -42,5 +42,9 @@ $(document).ready(function() {
 
     // Set up the date field, horrible hack to set the date automatically to today
     auto_today($("#change-date"));
+
+    $("button#submit-form").click(function(event) {
+        $("input#submit-time").val((new Date()).toJSON());
+    });
 });
 

@@ -4,7 +4,8 @@
 
 <p><button id='add-form'>Add hardware change</button></p>
 
-<form action="/submit_changes/" method="post">
+<form action="/submit_changes/" id="submit-changes" method="post">
+    <input type="hidden" name="submit-time" id="submit-time" />
     <div id="forms"></div>
 
     <label for="username">Name</label>
