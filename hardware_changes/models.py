@@ -40,6 +40,10 @@ class Camera(RenderView):
             ])
     TEMPLATE = "camera_settings.html"
 
+    @classmethod
+    def parse_response(cls, response):
+        return [1, 1,]
+
 
 class Pillar(RenderView):
 
