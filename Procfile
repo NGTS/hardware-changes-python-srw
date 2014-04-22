@@ -1,2 +1,2 @@
-web: gunicorn app:app
+web: python app.py
 devel: bundle exec guard -i
