@@ -1,6 +1,6 @@
 from flask import Flask, render_template, request, redirect
 
-from hardware_changes.models import Camera, Pillar
+from hardware_changes.models import Camera, Pillar, Mount
 
 app = Flask(__name__)
 
@@ -12,7 +12,8 @@ def index():
 def add_new_form():
     form_id = request.form['form_id']
     return render_template("form_template.html", form_id=form_id,
-            camera=Camera(form_id), pillar=Pillar(form_id))
+            camera=Camera(form_id), pillar=Pillar(form_id),
+            mount=Mount(form_id))
 
 @app.route('/add_change/', methods=['POST'])
 def add_change():

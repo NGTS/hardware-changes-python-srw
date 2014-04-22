@@ -65,5 +65,11 @@ class Pillar(RenderView):
         template = self.env.get_template("pillar_settings.html")
         return SafeHTML(template.render(pillar=self))
 
+class Mount(RenderView):
+    def __init__(self, form_id):
+        super(Mount, self).__init__(form_id)
 
+    def render(self):
+        template = self.env.get_template("mount_settings.html")
+        return SafeHTML(template.render(pillar=self))
 
