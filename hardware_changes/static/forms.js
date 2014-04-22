@@ -35,8 +35,5 @@ $(document).ready(function() {
         add_form(i);
         i++;
     });
-
-    // $(button).trigger("click");
-
 });
 
