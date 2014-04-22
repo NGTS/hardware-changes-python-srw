@@ -13,12 +13,15 @@ class RenderView(object):
 
     env = Environment(autoescape=False, loader=PackageLoader(__name__))
 
-    def __init__(self, form_id):
-        self.form_id = form_id
-
     def render(self):
         template = self.env.get_template(self.TEMPLATE)
         return SafeHTML(template.render(subject=self))
+
+    @classmethod
+    def with_form_id(cls, form_id):
+        subject = cls()
+        subject.form_id = form_id
+        return subject
 
 class Camera(RenderView):
 

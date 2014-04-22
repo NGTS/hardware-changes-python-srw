@@ -11,10 +11,14 @@ def index():
 @app.route('/new_form/', methods=['POST'])
 def add_new_form():
     form_id = request.form['form_id']
-    return render_template("form_template.html", form_id=form_id,
-            camera=Camera(form_id), pillar=Pillar(form_id),
-            mount=Mount(form_id), focuser=Focuser(form_id),
-            telescope=Telescope(form_id))
+    return render_template("form_template.html",
+            form_id=form_id,
+            camera=Camera.with_form_id(form_id),
+            pillar=Pillar.with_form_id(form_id),
+            mount=Mount.with_form_id(form_id),
+            focuser=Focuser.with_form_id(form_id),
+            telescope=Telescope.with_form_id(form_id)
+            )
 
 @app.route('/add_change/', methods=['POST'])
 def add_change():
