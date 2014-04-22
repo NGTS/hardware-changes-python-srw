@@ -39,6 +39,7 @@ class Camera(RenderView):
 
 class Pillar(RenderView):
 
+    BLANK_PILLAR_ID = "blank-pillar"
     IDS = sorted(map(lambda s: s.upper(), [
         "N1",
         "N2",
