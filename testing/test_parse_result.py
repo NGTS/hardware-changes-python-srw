@@ -23,4 +23,7 @@ def parsed(response):
 def test_camera_correct_length(parsed):
     assert len(parsed) == 2
 
+def test_correct_response_types(parsed):
+    for every in parsed:
+        assert isinstance(every, Camera)
 

@@ -45,7 +45,7 @@ class Camera(RenderView):
 
     @classmethod
     def parse_response(cls, response):
-        return [1, 1,]
+        return [cls()] * 2
 
 
 class Pillar(RenderView):
