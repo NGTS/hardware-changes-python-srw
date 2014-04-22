@@ -27,6 +27,10 @@ function add_form(i) {
     $("button#submit-form").prop('disabled', false);
 }
 
+function auto_today(selector) {
+    selector.val((new Date()).toJSON().slice(0, 10));
+}
+
 $(document).ready(function() {
     var button = $("button#add-form");
     var i = 0;
@@ -35,5 +39,8 @@ $(document).ready(function() {
         add_form(i);
         i++;
     });
+
+    // Set up the date field, horrible hack to set the date automatically to today
+    auto_today($("#change-date"));
 });
 
