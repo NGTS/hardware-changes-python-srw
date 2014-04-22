@@ -14,10 +14,8 @@ class SafeHTML(object):
 class RenderView(object):
     env = Environment(autoescape=False, loader=PackageLoader(__name__))
 
-class DatabaseStore(object):
-    pass
 
-class Camera(RenderView, DatabaseStore):
+class Camera(RenderView):
 
     IDS = sorted([
             13338,
