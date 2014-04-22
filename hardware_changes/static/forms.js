@@ -33,6 +33,7 @@ function auto_today(selector) {
 
 $(document).ready(function() {
     var button = $("button#add-form");
+    var form = $("form");
     var i = 0;
 
     $(button).click(function() {
@@ -43,8 +44,10 @@ $(document).ready(function() {
     // Set up the date field, horrible hack to set the date automatically to today
     auto_today($("#change-date"));
 
-    $("button#submit-form").click(function(event) {
+    // Add the submit time to the form
+    form.submit(function() {
         $("input#submit-time").val((new Date()).toJSON());
+        return true;
     });
 });
 
