@@ -11,6 +11,9 @@ class SafeHTML(object):
 class RenderView(object):
     env = Environment(autoescape=False, loader=PackageLoader(__name__))
 
+    def __init__(self, form_id):
+        self.form_id = form_id
+
 
 class Camera(RenderView):
     BLANK_CAMERA_ID = "blank-camera"
@@ -31,7 +34,7 @@ class Camera(RenderView):
             ])
 
     def __init__(self, form_id):
-        self.form_id = form_id
+        super(Camera, self).__init__(form_id)
 
     def render(self):
         template = self.env.get_template("camera_settings.html")
@@ -56,7 +59,7 @@ class Pillar(RenderView):
         ]))
 
     def __init__(self, form_id):
-        self.form_id = form_id
+        super(Pillar, self).__init__(form_id)
 
     def render(self):
         template = self.env.get_template("pillar_settings.html")
