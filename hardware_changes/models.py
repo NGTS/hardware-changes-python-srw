@@ -1,6 +1,7 @@
 from jinja2 import Environment, PackageLoader
 
 class SafeHTML(object):
+
     def __init__(self, html):
         self.html = html
 
@@ -9,6 +10,7 @@ class SafeHTML(object):
 
 
 class RenderView(object):
+
     env = Environment(autoescape=False, loader=PackageLoader(__name__))
 
     def __init__(self, form_id):
@@ -16,6 +18,7 @@ class RenderView(object):
 
 
 class Camera(RenderView):
+
     BLANK_CAMERA_ID = "blank-camera"
     IDS = sorted([
             13338,
