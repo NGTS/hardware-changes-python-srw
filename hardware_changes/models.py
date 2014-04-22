@@ -63,3 +63,11 @@ class Pillar(RenderView):
 class Mount(RenderView):
 
     TEMPLATE = "mount_settings.html"
+
+class Focuser(RenderView):
+
+    TEMPLATE = "focuser_settings.html"
+
+class Telescope(RenderView):
+
+    TEMPLATE = "telescope_settings.html"
