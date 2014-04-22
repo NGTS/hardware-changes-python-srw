@@ -16,7 +16,7 @@ class RenderView(object):
 
 
 class Camera(RenderView):
-
+    BLANK_CAMERA_ID = "blank-camera"
     IDS = sorted([
             13338,
             13339,
