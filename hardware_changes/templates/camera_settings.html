@@ -1,13 +1,13 @@
 <fieldset>
     <legend>Camera settings</legend>
-    <label for="camera_id_{{ camera.form_id }}">Camera ID</label>
-    <select name="camera_id_{{ camera.form_id }}" id="camera_id_{{ camera.form_id }}">
-        <option value="{{ camera.BLANK_CAMERA_ID }}" name=""></option>
-        {% for camera_id in camera.IDS %}
+    <label for="camera_id_{{ subject.form_id }}">Camera ID</label>
+    <select name="camera_id_{{ subject.form_id }}" id="camera_id_{{ subject.form_id }}">
+        <option value="{{ subject.BLANK_CAMERA_ID }}" name=""></option>
+        {% for camera_id in subject.IDS %}
         <option value="{{ camera_id }}">{{ camera_id }}</option>
         {% endfor %}
     </select>
 
-    <input type="checkbox" name="dismounted_camera_{{ camera.form_id }}" value=1>Dismounted camera</input>
-    <input type="checkbox" name="cleaned_mirrors_{{ camera.form_id }}" value=1>Cleaned mirrors</input>
+    <input type="checkbox" name="dismounted_camera_{{ subject.form_id }}" value=1>Dismounted camera</input>
+    <input type="checkbox" name="cleaned_mirrors_{{ subject.form_id }}" value=1>Cleaned mirrors</input>
 </fieldset>

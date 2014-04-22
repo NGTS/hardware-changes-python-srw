@@ -16,6 +16,9 @@ class RenderView(object):
     def __init__(self, form_id):
         self.form_id = form_id
 
+    def render(self):
+        template = self.env.get_template(self.TEMPLATE)
+        return SafeHTML(template.render(subject=self))
 
 class Camera(RenderView):
 
@@ -35,13 +38,8 @@ class Camera(RenderView):
             14034,
             14035,
             ])
+    TEMPLATE = "camera_settings.html"
 
-    def __init__(self, form_id):
-        super(Camera, self).__init__(form_id)
-
-    def render(self):
-        template = self.env.get_template("camera_settings.html")
-        return SafeHTML(template.render(camera=self))
 
 class Pillar(RenderView):
 
@@ -60,19 +58,8 @@ class Pillar(RenderView):
         "S5",
         "S6",
         ]))
-
-    def __init__(self, form_id):
-        super(Pillar, self).__init__(form_id)
-
-    def render(self):
-        template = self.env.get_template("pillar_settings.html")
-        return SafeHTML(template.render(pillar=self))
+    TEMPLATE = "pillar_settings.html"
 
 class Mount(RenderView):
-    def __init__(self, form_id):
-        super(Mount, self).__init__(form_id)
 
-    def render(self):
-        template = self.env.get_template("mount_settings.html")
-        return SafeHTML(template.render(pillar=self))
-
+    TEMPLATE = "mount_settings.html"
