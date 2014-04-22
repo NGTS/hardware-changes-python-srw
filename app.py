@@ -40,6 +40,30 @@ class Camera(RenderView):
         template = self.env.get_template("camera_settings.html")
         return SafeHTML(template.render(camera=self))
 
+class Pillar(RenderView):
+
+    IDS = sorted(map(lambda s: s.upper(), [
+        "N1",
+        "N2",
+        "N3",
+        "N4",
+        "N5",
+        "N6",
+        "S1",
+        "S2",
+        "S3",
+        "S4",
+        "S5",
+        "S6",
+        ]))
+
+    def __init__(self, form_id):
+        self.form_id = form_id
+
+    def render(self):
+        template = self.env.get_template("pillar_settings.html")
+        return SafeHTML(template.render(pillar=self))
+
 
 @app.route('/')
 def index():
@@ -47,11 +71,9 @@ def index():
 
 @app.route('/new_form/', methods=['POST'])
 def add_new_form():
-    print request
     form_id = request.form['form_id']
-    print "Form id {}".format(form_id)
     return render_template("form_template.html", form_id=form_id,
-            camera=Camera(form_id))
+            camera=Camera(form_id), pillar=Pillar(form_id))
 
 @app.route('/add_change/', methods=['POST'])
 def add_change():
@@ -60,7 +82,6 @@ def add_change():
 @app.route('/submit_changes/', methods=['GET', 'POST'])
 def submit_changes():
     if request.method == 'POST':
-        print "Parsing changes"
         form = request.form
         return render_template("results.html", results=form)
     else:

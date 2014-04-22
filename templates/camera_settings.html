@@ -2,7 +2,6 @@
     <legend>Camera settings</legend>
     <label for="camera_id_{{ camera.form_id }}">Camera ID</label>
     <select name="camera_id_{{ camera.form_id }}" id="camera_id_{{ camera.form_id }}">
-        <option value=""></option>
         {% for camera_id in camera.IDS %}
         <option value="{{ camera_id }}">{{ camera_id }}</option>
         {% endfor %}
