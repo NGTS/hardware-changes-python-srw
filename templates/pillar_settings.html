@@ -1,6 +1,6 @@
 <label for="pillar_{{ pillar.form_id }}">Pillar</label>
 <select name="pillar_{{ pillar.form_id }}" id="pillar_{{ pillar.form_id }}">
-    <option value=""></option>
+    <option value="blank-pillar" name=""></option>
     {% for pillar_id in pillar.IDS %}
     <option value="{{ pillar_id }}">{{ pillar_id }}</option>
     {% endfor %}
