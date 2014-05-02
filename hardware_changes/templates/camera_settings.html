@@ -1,7 +1,7 @@
 <fieldset>
     <legend>Camera settings</legend>
     <label for="camera_id_{{ subject.form_id }}">Camera ID</label>
-    <select multiple name="camera_id_{{ subject.form_id }}" id="camera_id_{{ subject.form_id }}">
+    <select name="camera_id_{{ subject.form_id }}" id="camera_id_{{ subject.form_id }}">
         <option value="{{ subject.BLANK_CAMERA_ID }}" name=""></option>
         {% for camera_id in subject.IDS %}
         <option value="{{ camera_id }}">{{ camera_id }}</option>
