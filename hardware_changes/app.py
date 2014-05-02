@@ -20,6 +20,32 @@ def add_new_form():
             telescope=Telescope.with_form_id(form_id)
             )
 
+def to_json(form):
+    """
+    Given form parameters as a dictionary, convert to a nested JSON structure for easier parsing
+    """
+    n_pillars = len(Pillar.IDS)
+
+    out = {}
+    for i in xrange(n_pillars):
+        included_keys = [(key, form[key]) for key in form if key.endswith(str(i))]
+        if len(included_keys):
+            out[i] = included_keys
+
+    def is_valid_integer(char):
+        try:
+            out = int(char)
+        except ValueError:
+            return False
+        else:
+            return True
+
+    out['meta'] = []
+    for key in form:
+        if not is_valid_integer(key[-1]):
+            out['meta'].append((key, form[key]))
+    return out
+
 @app.route('/add_change/', methods=['POST'])
 def add_change():
     return redirect('/')
@@ -28,7 +54,8 @@ def add_change():
 def submit_changes():
     if request.method == 'POST':
         form = request.form
-        return render_template("results.html", results=form)
+        converted = to_json(form)
+        return render_template("results.html", results=converted)
     else:
         return redirect('/')
 
