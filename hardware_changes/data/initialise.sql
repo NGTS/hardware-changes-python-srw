@@ -1,0 +1,15 @@
+begin;
+    insert into camera (camera_name) values (13338);
+    insert into camera (camera_name) values (13339);
+    insert into camera (camera_name) values (13340);
+    insert into camera (camera_name) values (13341);
+    insert into camera (camera_name) values (13342);
+    insert into camera (camera_name) values (14028);
+    insert into camera (camera_name) values (14029);
+    insert into camera (camera_name) values (14030);
+    insert into camera (camera_name) values (14031);
+    insert into camera (camera_name) values (14032);
+    insert into camera (camera_name) values (14033);
+    insert into camera (camera_name) values (14034);
+    insert into camera (camera_name) values (14035);
+    commit;
