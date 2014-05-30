@@ -44,14 +44,15 @@ class TestDataStore(unittest.TestCase):
         cls.camera_names = [800 + value for value in xrange(1, 14)]
         cls.telescope_names = range(1, 13)
 
+    def setUp(self):
         clean_database()
 
         # Insert all of the cameras
-        with cls.connection as cursor:
+        with self.connection as cursor:
             cursor.executemany('''insert into camera (camera_name) values (%s)''',
-                    [(c, ) for c in cls.camera_names])
+                    [(c, ) for c in self.camera_names])
             cursor.executemany('''insert into telescope (telescope_name) values (%s)''',
-                    [(t, ) for t in cls.telescope_names])
+                    [(t, ) for t in self.telescope_names])
 
     def random_camera(self):
         return random.choice(self.camera_names)
