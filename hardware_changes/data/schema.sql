@@ -91,39 +91,3 @@ create view camera_focuser
 as select id, camera_id, focuser_id, start_date
 from camera_focuser_history
 where end_date is null;
-
--- Create validations
-delimiter $$
-create trigger ensure_valid_camera_telescope_id
-    before insert on camera_telescope_history for each row
-    begin
-        if new.camera_id not in (select distinct id from camera) or
-            new.telescope_id not in (select distinct id from telescope)
-        then
-            signal sqlstate '45000' set message_text = 'Invalid camera id or telescope id given';
-        end if;
-    end;
-$$
-
-create trigger ensure_valid_camera_mount_id
-    before insert on camera_mount_history for each row
-    begin
-        if new.camera_id not in (select distinct id from camera) or
-            new.mount_id not in (select distinct id from mount)
-        then
-            signal sqlstate '45000' set message_text = 'Invalid camera id or mount id given';
-        end if;
-    end;
-$$
-
-create trigger ensure_valid_camera_focuser_id
-    before insert on camera_focuser_history for each row
-    begin
-        if new.camera_id not in (select distinct id from camera) or
-            new.focuser_id not in (select distinct id from focuser)
-        then
-            signal sqlstate '45000' set message_text = 'Invalid camera id or focuser id given';
-        end if;
-    end;
-$$
-delimiter ;

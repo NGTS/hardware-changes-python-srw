@@ -115,11 +115,11 @@ class TestDataStore(unittest.TestCase):
                 [bad_id, self.random_telescope()],
                 [self.random_camera(), bad_id]):
 
-            with pytest.raises(MySQLdb.OperationalError) as err:
+            with pytest.raises(MySQLdb.IntegrityError) as err:
                 with self.connection as cursor:
                     cursor.execute('''insert into camera_telescope_history
                     (camera_id, telescope_id, start_date)
                     values (%s, %s, %s)''',
                     (camera_id, telescope_id, start_date))
 
-            assert str(err) == 'Invalid camera id or telescope id given'
+            assert 'foreign key' in str(err)
