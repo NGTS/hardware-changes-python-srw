@@ -8,6 +8,9 @@ connection = MySQLdb.connect(host='sirius.astro.warwick.ac.uk', db='ngts_hwlog',
 camera_names = [800 + value for value in xrange(1, 14)]
 telescope_names = range(1, 13)
 
+class DatabaseIntegrityError(RuntimeError):
+    pass
+
 def clean_database():
     '''
     Function to remove the database data, and build it up again from scratch.
@@ -26,7 +29,11 @@ def get_id(cursor, table_name, name_value):
     name_name = '{}_name'.format(table_name)
     cursor.execute('''select id from {table_name} where {name_name} = %s limit 1'''.format(
         table_name=table_name, name_name=name_name), (name_value, ))
-    return cursor.fetchone()[0]
+    query_results = cursor.fetchone()
+    if query_results:
+        return query_results[0]
+    else:
+        raise DatabaseIntegrityError("Invalid camera {} supplied".format(name_value))
 
 def update(cursor, camera_name, telescope_name, update_time=datetime.datetime.now,
         interrupt=False):
@@ -116,6 +123,10 @@ def main():
     with connection as cursor:
         print_status(cursor)
 
+    print 'Inserting an invalid camera'
+    bad_camera_id = 10101
+    assert bad_camera_id not in camera_names
+    update(connection.cursor(), bad_camera_id, random.choice(telescope_names))
 
 if __name__ == '__main__':
     main()
