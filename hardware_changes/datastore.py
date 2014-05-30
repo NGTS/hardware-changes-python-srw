@@ -37,6 +37,7 @@ class UpdateHardware(object):
         and telescope_id = %s
         and end_date is null''', (update_time(), camera_id, telescope_id))
 
-        self.cursor.execute('''insert into camera_telescope_history (camera_id, telescope_id, start_date)
+        self.cursor.execute('''insert into camera_telescope_history
+        (camera_id, telescope_id, start_date)
         values (%s, %s, %s)''', (camera_id, telescope_id, update_time()))
 
