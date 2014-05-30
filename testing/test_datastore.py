@@ -21,24 +21,6 @@ def initialise_database():
     os.system("mysql -u sw -h sirius.astro.warwick.ac.uk -t < hardware_changes/data/schema.sql")
     print("Done")
 
-def print_status(cursor):
-    '''
-    Retrieve the history for the camera_telescope relation, and the current location
-    '''
-    cursor.execute('''select * from camera_telescope_history order by camera_id''')
-    for row in cursor:
-        print row
-
-    print "Current information"
-    cursor.execute('''select camera_name, telescope_name, camera_telescope.start_date
-            from camera
-            join camera_telescope on (camera.id = camera_telescope.camera_id)
-            join telescope on (camera_telescope.telescope_id = telescope.id)
-            order by camera_name''')
-    for row in cursor:
-        print "Camera {}, telescope {}, started {}".format(*row)
-    print
-
 class TestDataStore(object):
     @classmethod
     def setup_class(cls):
