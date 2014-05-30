@@ -1,6 +1,6 @@
 import datetime
 
-class DatabaseIntegrityError(RuntimeError):
+class NGTSDatabaseIntegrityError(RuntimeError):
     pass
 
 def get_id(cursor, table_name, name_value):
@@ -15,7 +15,7 @@ def get_id(cursor, table_name, name_value):
     if query_results:
         return query_results[0]
     else:
-        raise DatabaseIntegrityError("Invalid camera {} supplied".format(name_value))
+        raise NGTSDatabaseIntegrityError("Invalid camera {} supplied".format(name_value))
 
 def update(cursor, camera_name, telescope_name, update_time=datetime.datetime.now):
     '''

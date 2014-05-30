@@ -6,7 +6,7 @@ import os
 import unittest
 import pytest
 
-from hardware_changes.datastore import get_id, update, DatabaseIntegrityError
+from hardware_changes.datastore import get_id, update, NGTSDatabaseIntegrityError
 
 def clean_database():
     '''
@@ -140,7 +140,7 @@ class TestDataStore(object):
     def test_inserting_bad_camera_check_in_interface(self, cursor):
         bad_camera_id = 10101
         assert bad_camera_id not in self.camera_names
-        with pytest.raises(DatabaseIntegrityError):
+        with pytest.raises(NGTSDatabaseIntegrityError):
             update(cursor, bad_camera_id, self.random_telescope())
 
     def test_database_validations(self, cursor):
