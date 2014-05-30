@@ -123,6 +123,10 @@ class TestDataStore(unittest.TestCase):
             assert str(err) == 'Invalid camera id or telescope id given'
 
     def test_inserting_bad_telescope_check_in_database(self):
+        '''
+        This test has to bypass the interface, and checks the triggers from the database
+        validations
+        '''
         good_camera_id = self.random_camera()
         bad_telescope_id = 10101
         start_date = datetime.datetime.now()
