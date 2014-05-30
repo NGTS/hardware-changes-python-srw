@@ -17,8 +17,7 @@ def get_id(cursor, table_name, name_value):
     else:
         raise DatabaseIntegrityError("Invalid camera {} supplied".format(name_value))
 
-def update(cursor, camera_name, telescope_name, update_time=datetime.datetime.now,
-        interrupt=False):
+def update(cursor, camera_name, telescope_name, update_time=datetime.datetime.now):
     '''
     Move the camera known as `camera_name` to the telescope known as `telescope_name`.
 
@@ -33,9 +32,6 @@ def update(cursor, camera_name, telescope_name, update_time=datetime.datetime.no
     where camera_id = %s
     and telescope_id = %s
     and end_date is null''', (update_time(), camera_id, telescope_id))
-
-    if interrupt:
-        raise RuntimeError("INTERRUPT")
 
     cursor.execute('''insert into camera_telescope_history (camera_id, telescope_id, start_date)
     values (%s, %s, %s)''', (camera_id, telescope_id, update_time()))
