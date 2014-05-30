@@ -36,23 +36,37 @@ def print_status(cursor):
         print "Camera {}, telescope {}, started {}".format(*row)
     print
 
-class TestDataStore(unittest.TestCase):
+
+class TestDataStore(object):
     @classmethod
-    def setUpClass(cls):
+    def setup_class(cls):
         cls.connection = MySQLdb.connect(host='sirius.astro.warwick.ac.uk', db='ngts_hwlog', user='sw')
 
         cls.camera_names = [800 + value for value in xrange(1, 14)]
         cls.telescope_names = range(1, 13)
 
-    def setUp(self):
         clean_database()
 
         # Insert all of the cameras
-        with self.connection as cursor:
+        with cls.connection as cursor:
             cursor.executemany('''insert into camera (camera_name) values (%s)''',
-                    [(c, ) for c in self.camera_names])
+                    [(c, ) for c in cls.camera_names])
             cursor.executemany('''insert into telescope (telescope_name) values (%s)''',
-                    [(t, ) for t in self.telescope_names])
+                    [(t, ) for t in cls.telescope_names])
+            cls.connection.commit()
+
+    # Fixture to build a cursor object
+    @pytest.fixture
+    def cursor(self):
+        return self.connection.cursor()
+
+    def teardown_method(self, method):
+        '''
+        Ensure no data remains for the next test
+        '''
+        print("Rolling back database state")
+        self.connection.rollback()
+
 
     def random_camera(self):
         return random.choice(self.camera_names)
