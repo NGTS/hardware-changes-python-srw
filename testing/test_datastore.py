@@ -74,13 +74,76 @@ class TestDataStore(object):
     def random_telescope(self):
         return random.choice(self.telescope_names)
 
-    def test_inserting_bad_camera_check_in_interface(self):
+    def camera_telescope_history_contents(self, cursor=None):
+        cursor = cursor if cursor else self.connection.cursor()
+        cursor.execute('''select camera_name, telescope_name, start_date, end_date
+                from camera_telescope_history
+                join camera on camera.id = camera_telescope_history.camera_id
+                join telescope on telescope.id = camera_telescope_history.telescope_id
+                order by start_date asc''')
+        return cursor.fetchall()
+
+    def test_update_succeeds(self, cursor):
+        camera = self.random_camera()
+        telescope = self.random_telescope()
+        update_time = datetime.datetime(2013, 10, 5, 0, 0, 0)
+
+        update(cursor, camera, telescope,
+                update_time=lambda: update_time)
+
+        assert self.camera_telescope_history_contents() == (
+                (camera, telescope, update_time, None),
+                )
+
+    def test_second_update_is_correct(self, cursor):
+        camera = self.random_camera()
+        telescope = self.random_telescope()
+        update_time_1 = datetime.datetime(2013, 10, 5, 0, 0, 0)
+        update_time_2 = datetime.datetime(2013, 10, 6, 0, 0, 0)
+
+        update(cursor, camera, telescope,
+                update_time=lambda: update_time_1)
+        update(cursor, camera, telescope,
+                update_time=lambda: update_time_2)
+
+        results = self.camera_telescope_history_contents(cursor=cursor)
+        assert results == (
+                (camera, telescope, update_time_1, update_time_2),
+                (camera, telescope, update_time_2, None),
+                )
+
+    def test_different_telescopes(self, cursor):
+        camera = self.random_camera()
+        telescope_1 = self.random_telescope()
+        telescope_2 = telescope_1
+
+        while telescope_2 == telescope_1:
+            telescope_2 = self.random_telescope()
+
+        assert telescope_1 != telescope_2
+
+        update_time_1 = datetime.datetime(2013, 10, 5, 0, 0, 0)
+        update_time_2 = datetime.datetime(2013, 10, 6, 0, 0, 0)
+
+        update(cursor, camera, telescope_1,
+                update_time=lambda: update_time_1)
+        update(cursor, camera, telescope_2,
+                update_time=lambda: update_time_2)
+
+        results = self.camera_telescope_history_contents(cursor=cursor)
+
+        assert results == (
+                (camera, telescope_1, update_time_1, None),
+                (camera, telescope_2, update_time_2, None),
+                )
+
+    def test_inserting_bad_camera_check_in_interface(self, cursor):
         bad_camera_id = 10101
         assert bad_camera_id not in self.camera_names
         with pytest.raises(DatabaseIntegrityError):
-            update(self.connection.cursor(), bad_camera_id, self.random_telescope())
+            update(cursor, bad_camera_id, self.random_telescope())
 
-    def test_database_validations(self):
+    def test_database_validations(self, cursor):
         '''
         This test has to bypass the interface, and checks the triggers from the database
         validations
@@ -94,10 +157,9 @@ class TestDataStore(object):
                 [self.random_camera(), bad_id]):
 
             with pytest.raises(MySQLdb.IntegrityError) as err:
-                with self.connection as cursor:
-                    cursor.execute('''insert into camera_telescope_history
-                    (camera_id, telescope_id, start_date)
-                    values (%s, %s, %s)''',
-                    (camera_id, telescope_id, start_date))
+                cursor.execute('''insert into camera_telescope_history
+                (camera_id, telescope_id, start_date)
+                values (%s, %s, %s)''',
+                (camera_id, telescope_id, start_date))
 
             assert 'foreign key' in str(err)
