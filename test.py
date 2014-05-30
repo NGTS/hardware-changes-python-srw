@@ -4,7 +4,7 @@ import random
 import time
 import os
 
-connection = MySQLdb.connect(host='localhost', db='ngts_hwlog', user='sw')
+connection = MySQLdb.connect(host='sirius.astro.warwick.ac.uk', db='ngts_hwlog', user='sw')
 camera_names = [14030, 14031, 14035, 13338]
 telescope_names = [1, 2, 3, 4, 5]
 
@@ -15,10 +15,8 @@ def clean_database():
     This is stored in the sql script `hardware_changes/data/schema.sql`
     '''
     print("Cleaning database")
-    os.system("mysql -u sw -t < hardware_changes/data/schema.sql")
+    os.system("mysql -u sw -h sirius.astro.warwick.ac.uk -t < hardware_changes/data/schema.sql")
     print("Done")
-
-clean_database()
 
 def get_id(cursor, table_name, name_value):
     '''
