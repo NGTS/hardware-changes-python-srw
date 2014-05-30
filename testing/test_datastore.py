@@ -1,10 +1,8 @@
-import MySQLdb
 import datetime
-import random
-import time
+import MySQLdb
 import os
-import unittest
 import pytest
+import random
 
 from hardware_changes.datastore import UpdateHardware, NGTSDatabaseIntegrityError
 
@@ -53,7 +51,6 @@ class TestDataStore(object):
         print("Rolling back database state")
         self.connection.rollback()
 
-
     def random_camera(self):
         return random.choice(self.camera_names)
 
@@ -69,6 +66,7 @@ class TestDataStore(object):
                 order by start_date asc''')
         return cursor.fetchall()
 
+    # Tests start here
     def test_update_succeeds(self, cursor):
         camera = self.random_camera()
         telescope = self.random_telescope()
