@@ -107,10 +107,33 @@ class TestDataStore(unittest.TestCase):
         This test has to bypass the interface, and checks the triggers from the database
         validations
         '''
+        bad_camera_id = 10101
+        good_telescope_id = self.random_telescope()
+        start_date = datetime.datetime.now()
+
+        assert bad_camera_id not in self.camera_names
+
         with pytest.raises(MySQLdb.OperationalError) as err:
             with self.connection as cursor:
                 cursor.execute('''insert into camera_telescope_history
                 (camera_id, telescope_id, start_date)
-                values (10101, 2, "2010-02-05 15:00:00")''')
+                values (%s, %s, %s)''',
+                (bad_camera_id, good_telescope_id, start_date))
 
-            assert str(err) == 'Invalid camera id given'
+            assert str(err) == 'Invalid camera id or telescope id given'
+
+    def test_inserting_bad_telescope_check_in_database(self):
+        good_camera_id = self.random_camera()
+        bad_telescope_id = 10101
+        start_date = datetime.datetime.now()
+
+        assert bad_telescope_id not in self.telescope_names
+
+        with pytest.raises(MySQLdb.OperationalError) as err:
+            with self.connection as cursor:
+                cursor.execute('''insert into camera_telescope_history
+                (camera_id, telescope_id, start_date)
+                values (%s, %s, %s)''',
+                (good_camera_id, bad_telescope_id, start_date))
+
+            assert str(err) == 'Invalid camera id or telescope id given'
