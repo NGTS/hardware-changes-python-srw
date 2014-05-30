@@ -55,9 +55,11 @@ class TestDataStore(object):
                     [(t, ) for t in cls.telescope_names])
             cls.connection.commit()
 
-    # Fixture to build a cursor object
     @pytest.fixture
     def cursor(self):
+        '''
+        Fixture to build a cursor object, to allow for test rollback
+        '''
         return self.connection.cursor()
 
     def teardown_method(self, method):
