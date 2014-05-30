@@ -57,8 +57,7 @@ class TestDataStore(object):
     def random_telescope(self):
         return random.choice(self.telescope_names)
 
-    def camera_telescope_history_contents(self, cursor=None):
-        cursor = cursor if cursor else self.connection.cursor()
+    def camera_telescope_history_contents(self, cursor):
         cursor.execute('''select camera_name, telescope_name, start_date, end_date
                 from camera_telescope_history
                 join camera on camera.id = camera_telescope_history.camera_id
@@ -75,7 +74,7 @@ class TestDataStore(object):
         UpdateHardware(cursor).update(camera, telescope,
                 update_time=lambda: update_time)
 
-        assert self.camera_telescope_history_contents() == (
+        assert self.camera_telescope_history_contents(cursor) == (
                 (camera, telescope, update_time, None),
                 )
 
@@ -90,7 +89,7 @@ class TestDataStore(object):
         UpdateHardware(cursor).update(camera, telescope,
                 update_time=lambda: update_time_2)
 
-        results = self.camera_telescope_history_contents(cursor=cursor)
+        results = self.camera_telescope_history_contents(cursor)
         assert results == (
                 (camera, telescope, update_time_1, update_time_2),
                 (camera, telescope, update_time_2, None),
@@ -114,7 +113,7 @@ class TestDataStore(object):
         UpdateHardware(cursor).update(camera, telescope_2,
                 update_time=lambda: update_time_2)
 
-        results = self.camera_telescope_history_contents(cursor=cursor)
+        results = self.camera_telescope_history_contents(cursor)
 
         assert results == (
                 (camera, telescope_1, update_time_1, None),
