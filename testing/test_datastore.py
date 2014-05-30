@@ -8,6 +8,9 @@ import pytest
 
 from hardware_changes.datastore import UpdateHardware, NGTSDatabaseIntegrityError
 
+def connect_to_test_database():
+    return MySQLdb.connect(host='sirius.astro.warwick.ac.uk', db='ngts_hwlog', user='sw')
+
 def initialise_database():
     '''
     Function to remove the database data, and build it up again from scratch.
@@ -39,7 +42,7 @@ def print_status(cursor):
 class TestDataStore(object):
     @classmethod
     def setup_class(cls):
-        cls.connection = MySQLdb.connect(host='sirius.astro.warwick.ac.uk', db='ngts_hwlog', user='sw')
+        cls.connection = connect_to_test_database()
 
         cls.camera_names = [800 + value for value in xrange(1, 14)]
         cls.telescope_names = range(1, 13)
