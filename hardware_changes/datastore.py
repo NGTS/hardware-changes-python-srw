@@ -1,7 +1,7 @@
 import datetime
 
-class NGTSDatabaseIntegrityError(RuntimeError):
-    pass
+class NGTSError(RuntimeError): pass
+class NGTSDatabaseIntegrityError(NGTSError): pass
 
 def get_id(cursor, table_name, name_value):
     '''
