@@ -28,15 +28,6 @@ def get_id(cursor, table_name, name_value):
         table_name=table_name, name_name=name_name), (name_value, ))
     return cursor.fetchone()[0]
 
-
-# Insert all of the cameras
-with connection as cursor:
-    cursor.executemany('''insert into camera (camera_name) values (%s)''',
-            [(c, ) for c in camera_names])
-    cursor.executemany('''insert into telescope (telescope_name) values (%s)''',
-            [(t, ) for t in telescope_names])
-
-
 def update(cursor, camera_name, telescope_name, update_time=datetime.datetime.now,
         interrupt=False):
     '''
@@ -70,7 +61,7 @@ def print_status(cursor):
         print row
 
     print "Current information"
-    cursor.execute('''select camera_name, telescope_name, camera_telescope.start_date 
+    cursor.execute('''select camera_name, telescope_name, camera_telescope.start_date
             from camera
             join camera_telescope on (camera.id = camera_telescope.camera_id)
             join telescope on (camera_telescope.telescope_id = telescope.id)
@@ -79,40 +70,52 @@ def print_status(cursor):
         print "Camera {}, telescope {}, started {}".format(*row)
     print
 
+def main():
+    clean_database()
 
-update(connection.cursor(), random.choice(camera_names), random.choice(telescope_names), 
-        update_time = lambda: datetime.datetime(2013, 10, 5, 0, 0, 0))
-with connection as cursor:
-    print_status(cursor)
+    # Insert all of the cameras
+    with connection as cursor:
+        cursor.executemany('''insert into camera (camera_name) values (%s)''',
+                [(c, ) for c in camera_names])
+        cursor.executemany('''insert into telescope (telescope_name) values (%s)''',
+                [(t, ) for t in telescope_names])
 
-update(connection.cursor(), random.choice(camera_names), random.choice(telescope_names), 
-        update_time = lambda: datetime.datetime(2013, 10, 5, 0, 0, 0))
-with connection as cursor:
-    print_status(cursor)
+    update(connection.cursor(), random.choice(camera_names), random.choice(telescope_names),
+            update_time = lambda: datetime.datetime(2013, 10, 5, 0, 0, 0))
+    with connection as cursor:
+        print_status(cursor)
 
-update(connection.cursor(), random.choice(camera_names), random.choice(telescope_names), 
-        update_time = lambda: datetime.datetime(2013, 10, 5, 0, 0, 0))
-with connection as cursor:
-    print_status(cursor)
+    update(connection.cursor(), random.choice(camera_names), random.choice(telescope_names),
+            update_time = lambda: datetime.datetime(2013, 10, 5, 0, 0, 0))
+    with connection as cursor:
+        print_status(cursor)
 
-update(connection.cursor(), random.choice(camera_names), random.choice(telescope_names), 
-        update_time = lambda: datetime.datetime(2013, 10, 5, 0, 0, 0))
-with connection as cursor:
-    print_status(cursor)
+    update(connection.cursor(), random.choice(camera_names), random.choice(telescope_names),
+            update_time = lambda: datetime.datetime(2013, 10, 5, 0, 0, 0))
+    with connection as cursor:
+        print_status(cursor)
 
-print "Running interrupt"
-try:
-    update(connection.cursor(), random.choice(camera_names), random.choice(telescope_names), 
-            update_time = lambda: datetime.datetime(2013, 10, 5, 0, 0, 0),
-            interrupt=True)
-except RuntimeError:
-    pass
-with connection as cursor:
-    print_status(cursor)
+    update(connection.cursor(), random.choice(camera_names), random.choice(telescope_names),
+            update_time = lambda: datetime.datetime(2013, 10, 5, 0, 0, 0))
+    with connection as cursor:
+        print_status(cursor)
 
-for i in xrange(100):
-    update(connection.cursor(), random.choice(camera_names), random.choice(telescope_names))
+    print "Running interrupt"
+    try:
+        update(connection.cursor(), random.choice(camera_names), random.choice(telescope_names),
+                update_time = lambda: datetime.datetime(2013, 10, 5, 0, 0, 0),
+                interrupt=True)
+    except RuntimeError:
+        pass
+    with connection as cursor:
+        print_status(cursor)
 
-with connection as cursor:
-    print_status(cursor)
+    for i in xrange(100):
+        update(connection.cursor(), random.choice(camera_names), random.choice(telescope_names))
 
+    with connection as cursor:
+        print_status(cursor)
+
+
+if __name__ == '__main__':
+    main()
