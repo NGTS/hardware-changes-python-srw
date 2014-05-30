@@ -8,10 +8,6 @@ import pytest
 
 from hardware_changes.datastore import get_id, update, DatabaseIntegrityError
 
-connection = MySQLdb.connect(host='sirius.astro.warwick.ac.uk', db='ngts_hwlog', user='sw')
-camera_names = [800 + value for value in xrange(1, 14)]
-telescope_names = range(1, 13)
-
 def clean_database():
     '''
     Function to remove the database data, and build it up again from scratch.
@@ -42,57 +38,62 @@ def print_status(cursor):
 
 class TestDataStore(unittest.TestCase):
     def setUp(self):
+        self.connection = MySQLdb.connect(host='sirius.astro.warwick.ac.uk', db='ngts_hwlog', user='sw')
+
+        self.camera_names = [800 + value for value in xrange(1, 14)]
+        self.telescope_names = range(1, 13)
+
         clean_database()
 
         # Insert all of the cameras
-        with connection as cursor:
+        with self.connection as cursor:
             cursor.executemany('''insert into camera (camera_name) values (%s)''',
-                    [(c, ) for c in camera_names])
+                    [(c, ) for c in self.camera_names])
             cursor.executemany('''insert into telescope (telescope_name) values (%s)''',
-                    [(t, ) for t in telescope_names])
+                    [(t, ) for t in self.telescope_names])
 
     def test_all_code(self):
-        update(connection.cursor(), random.choice(camera_names), random.choice(telescope_names),
+        update(self.connection.cursor(), random.choice(self.camera_names), random.choice(self.telescope_names),
                 update_time = lambda: datetime.datetime(2013, 10, 5, 0, 0, 0))
-        with connection as cursor:
+        with self.connection as cursor:
             print_status(cursor)
 
-        update(connection.cursor(), random.choice(camera_names), random.choice(telescope_names),
+        update(self.connection.cursor(), random.choice(self.camera_names), random.choice(self.telescope_names),
                 update_time = lambda: datetime.datetime(2013, 10, 5, 0, 0, 0))
-        with connection as cursor:
+        with self.connection as cursor:
             print_status(cursor)
 
-        update(connection.cursor(), random.choice(camera_names), random.choice(telescope_names),
+        update(self.connection.cursor(), random.choice(self.camera_names), random.choice(self.telescope_names),
                 update_time = lambda: datetime.datetime(2013, 10, 5, 0, 0, 0))
-        with connection as cursor:
+        with self.connection as cursor:
             print_status(cursor)
 
-        update(connection.cursor(), random.choice(camera_names), random.choice(telescope_names),
+        update(self.connection.cursor(), random.choice(self.camera_names), random.choice(self.telescope_names),
                 update_time = lambda: datetime.datetime(2013, 10, 5, 0, 0, 0))
-        with connection as cursor:
+        with self.connection as cursor:
             print_status(cursor)
 
         print "Running interrupt"
         try:
-            update(connection.cursor(), random.choice(camera_names), random.choice(telescope_names),
+            update(self.connection.cursor(), random.choice(self.camera_names), random.choice(self.telescope_names),
                     update_time = lambda: datetime.datetime(2013, 10, 5, 0, 0, 0),
                     interrupt=True)
         except RuntimeError:
             pass
-        with connection as cursor:
+        with self.connection as cursor:
             print_status(cursor)
 
         for i in xrange(100):
-            update(connection.cursor(), random.choice(camera_names), random.choice(telescope_names))
+            update(self.connection.cursor(), random.choice(self.camera_names), random.choice(self.telescope_names))
 
-        with connection as cursor:
+        with self.connection as cursor:
             print_status(cursor)
 
     def test_inserting_bad_camera_check_in_interface(self):
         bad_camera_id = 10101
-        assert bad_camera_id not in camera_names
+        assert bad_camera_id not in self.camera_names
         with pytest.raises(DatabaseIntegrityError):
-            update(connection.cursor(), bad_camera_id, random.choice(telescope_names))
+            update(self.connection.cursor(), bad_camera_id, random.choice(self.telescope_names))
 
     def test_inserting_bad_camera_check_in_database(self):
         '''
@@ -100,7 +101,7 @@ class TestDataStore(unittest.TestCase):
         validations
         '''
         with pytest.raises(MySQLdb.OperationalError) as err:
-            with connection as cursor:
+            with self.connection as cursor:
                 cursor.execute('''insert into camera_telescope_history
                 (camera_id, telescope_id, start_date)
                 values (10101, 2, "2010-02-05 15:00:00")''')
