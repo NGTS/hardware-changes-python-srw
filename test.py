@@ -5,8 +5,8 @@ import time
 import os
 
 connection = MySQLdb.connect(host='sirius.astro.warwick.ac.uk', db='ngts_hwlog', user='sw')
-camera_names = [14030, 14031, 14035, 13338]
-telescope_names = [1, 2, 3, 4, 5]
+camera_names = [800 + value for value in xrange(1, 14)]
+telescope_names = range(1, 13)
 
 def clean_database():
     '''
