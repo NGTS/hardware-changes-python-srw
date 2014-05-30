@@ -102,42 +102,24 @@ class TestDataStore(unittest.TestCase):
         with pytest.raises(DatabaseIntegrityError):
             update(self.connection.cursor(), bad_camera_id, self.random_telescope())
 
-    def test_inserting_bad_camera_check_in_database(self):
+    def test_database_validations(self):
         '''
         This test has to bypass the interface, and checks the triggers from the database
         validations
         '''
-        bad_camera_id = 10101
-        good_telescope_id = self.random_telescope()
         start_date = datetime.datetime.now()
+        bad_id = 10101
+        assert bad_id not in self.telescope_names and bad_id not in self.camera_names
 
-        assert bad_camera_id not in self.camera_names
+        for (camera_id, telescope_id) in zip(
+                [bad_id, self.random_telescope()],
+                [self.random_camera(), bad_id]):
 
-        with pytest.raises(MySQLdb.OperationalError) as err:
-            with self.connection as cursor:
-                cursor.execute('''insert into camera_telescope_history
-                (camera_id, telescope_id, start_date)
-                values (%s, %s, %s)''',
-                (bad_camera_id, good_telescope_id, start_date))
-
-            assert str(err) == 'Invalid camera id or telescope id given'
-
-    def test_inserting_bad_telescope_check_in_database(self):
-        '''
-        This test has to bypass the interface, and checks the triggers from the database
-        validations
-        '''
-        good_camera_id = self.random_camera()
-        bad_telescope_id = 10101
-        start_date = datetime.datetime.now()
-
-        assert bad_telescope_id not in self.telescope_names
-
-        with pytest.raises(MySQLdb.OperationalError) as err:
-            with self.connection as cursor:
-                cursor.execute('''insert into camera_telescope_history
-                (camera_id, telescope_id, start_date)
-                values (%s, %s, %s)''',
-                (good_camera_id, bad_telescope_id, start_date))
+            with pytest.raises(MySQLdb.OperationalError) as err:
+                with self.connection as cursor:
+                    cursor.execute('''insert into camera_telescope_history
+                    (camera_id, telescope_id, start_date)
+                    values (%s, %s, %s)''',
+                    (camera_id, telescope_id, start_date))
 
             assert str(err) == 'Invalid camera id or telescope id given'
