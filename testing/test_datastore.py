@@ -89,7 +89,7 @@ class TestDataStore(object):
         telescope = self.random_telescope()
         update_time = datetime.datetime(2013, 10, 5, 0, 0, 0)
 
-        UpdateHardware.update(cursor, camera, telescope,
+        UpdateHardware(cursor).update(camera, telescope,
                 update_time=lambda: update_time)
 
         assert self.camera_telescope_history_contents() == (
@@ -102,9 +102,9 @@ class TestDataStore(object):
         update_time_1 = datetime.datetime(2013, 10, 5, 0, 0, 0)
         update_time_2 = datetime.datetime(2013, 10, 6, 0, 0, 0)
 
-        UpdateHardware.update(cursor, camera, telescope,
+        UpdateHardware(cursor).update(camera, telescope,
                 update_time=lambda: update_time_1)
-        UpdateHardware.update(cursor, camera, telescope,
+        UpdateHardware(cursor).update(camera, telescope,
                 update_time=lambda: update_time_2)
 
         results = self.camera_telescope_history_contents(cursor=cursor)
@@ -126,9 +126,9 @@ class TestDataStore(object):
         update_time_1 = datetime.datetime(2013, 10, 5, 0, 0, 0)
         update_time_2 = datetime.datetime(2013, 10, 6, 0, 0, 0)
 
-        UpdateHardware.update(cursor, camera, telescope_1,
+        UpdateHardware(cursor).update(camera, telescope_1,
                 update_time=lambda: update_time_1)
-        UpdateHardware.update(cursor, camera, telescope_2,
+        UpdateHardware(cursor).update(camera, telescope_2,
                 update_time=lambda: update_time_2)
 
         results = self.camera_telescope_history_contents(cursor=cursor)
@@ -142,7 +142,7 @@ class TestDataStore(object):
         bad_camera_id = 10101
         assert bad_camera_id not in self.camera_names
         with pytest.raises(NGTSDatabaseIntegrityError):
-            UpdateHardware.update(cursor, bad_camera_id, self.random_telescope())
+            UpdateHardware(cursor).update(bad_camera_id, self.random_telescope())
 
     def test_database_validations(self, cursor):
         '''

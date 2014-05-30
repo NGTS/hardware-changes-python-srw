@@ -4,23 +4,24 @@ class NGTSError(RuntimeError): pass
 class NGTSDatabaseIntegrityError(NGTSError): pass
 
 class UpdateHardware(object):
-    @classmethod
-    def get_id(cls, cursor, table_name, name_value):
+    def __init__(self, cursor):
+        self.cursor = cursor
+
+    def get_id(self, table_name, name_value):
         '''
         Retrieve the id of the piece of hardware given in `table_name` with the "name"
         attribute of the object is given in `name_value`.
         '''
         name_name = '{}_name'.format(table_name)
-        cursor.execute('''select id from {table_name} where {name_name} = %s limit 1'''.format(
+        self.cursor.execute('''select id from {table_name} where {name_name} = %s limit 1'''.format(
             table_name=table_name, name_name=name_name), (name_value, ))
-        query_results = cursor.fetchone()
+        query_results = self.cursor.fetchone()
         if query_results:
             return query_results[0]
         else:
             raise NGTSDatabaseIntegrityError("Invalid camera {} supplied".format(name_value))
 
-    @classmethod
-    def update(cls, cursor, camera_name, telescope_name, update_time=datetime.datetime.now):
+    def update(self, camera_name, telescope_name, update_time=datetime.datetime.now):
         '''
         Move the camera known as `camera_name` to the telescope known as `telescope_name`.
 
@@ -28,14 +29,14 @@ class UpdateHardware(object):
 
         update_time = lambda: datetime.datetime(2020, 10, 2, 15, 13, 2)
         '''
-        camera_id = cls.get_id(cursor, 'camera', camera_name)
-        telescope_id = cls.get_id(cursor, 'telescope', telescope_name)
+        camera_id = self.get_id('camera', camera_name)
+        telescope_id = self.get_id('telescope', telescope_name)
 
-        cursor.execute('''update camera_telescope_history set end_date = %s
+        self.cursor.execute('''update camera_telescope_history set end_date = %s
         where camera_id = %s
         and telescope_id = %s
         and end_date is null''', (update_time(), camera_id, telescope_id))
 
-        cursor.execute('''insert into camera_telescope_history (camera_id, telescope_id, start_date)
+        self.cursor.execute('''insert into camera_telescope_history (camera_id, telescope_id, start_date)
         values (%s, %s, %s)''', (camera_id, telescope_id, update_time()))
 
