@@ -8,7 +8,7 @@ import pytest
 
 from hardware_changes.datastore import UpdateHardware, NGTSDatabaseIntegrityError
 
-def clean_database():
+def initialise_database():
     '''
     Function to remove the database data, and build it up again from scratch.
 
@@ -44,7 +44,7 @@ class TestDataStore(object):
         cls.camera_names = [800 + value for value in xrange(1, 14)]
         cls.telescope_names = range(1, 13)
 
-        clean_database()
+        initialise_database()
 
         # Insert all of the cameras
         with cls.connection as cursor:
