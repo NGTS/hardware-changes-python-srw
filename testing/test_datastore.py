@@ -37,20 +37,21 @@ def print_status(cursor):
     print
 
 class TestDataStore(unittest.TestCase):
-    def setUp(self):
-        self.connection = MySQLdb.connect(host='sirius.astro.warwick.ac.uk', db='ngts_hwlog', user='sw')
+    @classmethod
+    def setUpClass(cls):
+        cls.connection = MySQLdb.connect(host='sirius.astro.warwick.ac.uk', db='ngts_hwlog', user='sw')
 
-        self.camera_names = [800 + value for value in xrange(1, 14)]
-        self.telescope_names = range(1, 13)
+        cls.camera_names = [800 + value for value in xrange(1, 14)]
+        cls.telescope_names = range(1, 13)
 
         clean_database()
 
         # Insert all of the cameras
-        with self.connection as cursor:
+        with cls.connection as cursor:
             cursor.executemany('''insert into camera (camera_name) values (%s)''',
-                    [(c, ) for c in self.camera_names])
+                    [(c, ) for c in cls.camera_names])
             cursor.executemany('''insert into telescope (telescope_name) values (%s)''',
-                    [(t, ) for t in self.telescope_names])
+                    [(t, ) for t in cls.telescope_names])
 
     def random_camera(self):
         return random.choice(self.camera_names)
