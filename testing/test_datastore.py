@@ -94,3 +94,15 @@ class TestDataStore(unittest.TestCase):
         with pytest.raises(DatabaseIntegrityError):
             update(connection.cursor(), bad_camera_id, random.choice(telescope_names))
 
+    def test_inserting_bad_camera_check_in_database(self):
+        '''
+        This test has to bypass the interface, and checks the triggers from the database
+        validations
+        '''
+        with pytest.raises(MySQLdb.OperationalError) as err:
+            with connection as cursor:
+                cursor.execute('''insert into camera_telescope_history
+                (camera_id, telescope_id, start_date)
+                values (10101, 2, "2010-02-05 15:00:00")''')
+
+            assert str(err) == 'Invalid camera id given'

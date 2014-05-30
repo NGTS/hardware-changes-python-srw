@@ -1,4 +1,3 @@
-
 drop database if exists ngts_hwlog;
 create database ngts_hwlog;
 
@@ -92,3 +91,17 @@ create view camera_focuser
 as select id, camera_id, focuser_id, start_date
 from camera_focuser_history
 where end_date is null;
+
+-- Create validations
+delimiter $$
+create trigger ensure_valid_camera
+    before insert on camera_telescope_history for each row
+    begin
+        if new.camera_id not in (select distinct id from camera)
+        then
+            signal sqlstate '45000' set message_text = 'Invalid camera id given';
+        end if;
+    end;
+$$
+
+delimiter ;
