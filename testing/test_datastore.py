@@ -6,8 +6,12 @@ import random
 
 from hardware_changes.datastore import UpdateHardware, NGTSDatabaseIntegrityError
 
+DB_HOST = 'sirius.astro.warwick.ac.uk'
+DB_NAME = 'ngts_hwlog'
+DB_USER = 'sw'
+
 def connect_to_test_database():
-    return MySQLdb.connect(host='sirius.astro.warwick.ac.uk', db='ngts_hwlog', user='sw')
+    return MySQLdb.connect(host=DB_HOST, db=DB_NAME, user=DB_USER)
 
 def initialise_database():
     '''
@@ -16,7 +20,8 @@ def initialise_database():
     This is stored in the sql script `hardware_changes/data/schema.sql`
     '''
     print("Cleaning database")
-    os.system("mysql -u sw -h sirius.astro.warwick.ac.uk -t < hardware_changes/data/schema.sql")
+    os.system("mysql -u {user} -h {host} -t < hardware_changes/data/schema.sql".format(
+        user=DB_USER, host=DB_HOST))
     print("Done")
 
 class TestDataStore(object):
