@@ -2,7 +2,8 @@ import datetime
 import pytest
 
 from test_helper import DatabaseTester
-from hardware_changes.datastore import UpdateHardware, NGTSDatabaseIntegrityError
+from hardware_changes.datastore import (UpdateHardware,
+        NGTSDatabaseIntegrityError)
 
 class TestCameraTelescope(DatabaseTester):
     def test_with_one_update(self, cursor):
