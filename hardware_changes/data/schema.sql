@@ -79,5 +79,9 @@ create table camera_telescope (
     id integer primary key auto_increment,
     camera_id integer not null,
     telescope_id integer not null,
-    start_date datetime not null
+    start_date datetime not null,
+    foreign key (camera_id)
+    references camera(id),
+    foreign key (telescope_id)
+    references telescope(id)
 );
