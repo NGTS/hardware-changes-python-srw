@@ -79,15 +79,3 @@ create view camera_telescope
 as select id, camera_id, telescope_id, start_date
 from camera_telescope_history
 where end_date is null;
-
-create view camera_mount 
-(id, camera_id, mount_id, start_date)
-as select id, camera_id, mount_id, start_date
-from camera_mount_history
-where end_date is null;
-
-create view camera_focuser 
-(id, camera_id, focuser_id, start_date)
-as select id, camera_id, focuser_id, start_date
-from camera_focuser_history
-where end_date is null;
