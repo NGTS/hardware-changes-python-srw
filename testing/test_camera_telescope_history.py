@@ -1,6 +1,6 @@
 import datetime
 import pytest
-import MySQLdb
+import pymysql
 
 from test_helper import DatabaseTester
 from hardware_changes.datastore import UpdateHardware, NGTSDatabaseIntegrityError
@@ -79,7 +79,7 @@ class TestCameraTelescopeHistory(DatabaseTester):
                 [bad_id, self.random_telescope()],
                 [self.random_camera(), bad_id]):
 
-            with pytest.raises(MySQLdb.IntegrityError) as err:
+            with pytest.raises(pymysql.IntegrityError) as err:
                 cursor.execute('''insert into camera_telescope_history
                 (camera_id, telescope_id, start_date)
                 values (%s, %s, %s)''',

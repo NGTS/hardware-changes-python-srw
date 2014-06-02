@@ -1,6 +1,5 @@
 import datetime
 import pytest
-import MySQLdb
 
 from test_helper import DatabaseTester
 from hardware_changes.datastore import UpdateHardware, NGTSDatabaseIntegrityError

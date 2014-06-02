@@ -1,5 +1,5 @@
 import pytest
-import MySQLdb
+import pymysql
 import datetime
 import os
 import random
@@ -9,7 +9,7 @@ DB_NAME = 'ngts_hwlog'
 DB_USER = 'sw'
 
 def connect_to_test_database():
-    return MySQLdb.connect(host=DB_HOST, db=DB_NAME, user=DB_USER)
+    return pymysql.connect(host=DB_HOST, db=DB_NAME, user=DB_USER)
 
 def initialise_database():
     '''
