@@ -60,7 +60,7 @@ class Camera(RenderView):
         out = []
         camera_keys = [key for key in response if 'camera' in key]
 
-        for camera_index in xrange(len(cls.IDS)):
+        for camera_index in range(len(cls.IDS)):
             current_camera = []
             for key in camera_keys:
                 if str(camera_index) in key:

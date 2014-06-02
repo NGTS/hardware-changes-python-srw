@@ -27,7 +27,7 @@ class DatabaseTester(object):
     def setup_class(cls):
         cls.connection = connect_to_test_database()
 
-        cls.camera_names = [800 + value for value in xrange(1, 14)]
+        cls.camera_names = [800 + value for value in range(1, 14)]
         cls.telescope_names = range(1, 13)
 
         initialise_database()

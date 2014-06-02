@@ -27,7 +27,7 @@ def to_json(form):
     n_pillars = len(Pillar.IDS)
 
     out = {}
-    for i in xrange(n_pillars):
+    for i in range(n_pillars):
         included_keys = [(key, form[key]) for key in form if key.endswith(str(i))]
         if len(included_keys):
             out[i] = included_keys
