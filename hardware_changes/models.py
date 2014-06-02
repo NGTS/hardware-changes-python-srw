@@ -86,7 +86,7 @@ class Camera(RenderView):
 
 
     def __str__(self):
-        return "<Camera id: {}>".format(self.camera_id)
+        return "<Camera id: {0}>".format(self.camera_id)
 
     def __repr__(self):
         return str(self)

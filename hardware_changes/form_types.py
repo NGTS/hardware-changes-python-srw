@@ -6,7 +6,7 @@ class Type(object):
             return self.value == other
 
     def __str__(self):
-        return "<Type {}>".format(self.value)
+        return "<Type {0}>".format(self.value)
 
 class Boolean(Type):
     def __init__(self, value):
