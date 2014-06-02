@@ -49,8 +49,8 @@ class TestCameraTelescope(DatabaseTester):
         start_date_1 = datetime.datetime(2013, 10, 5, 0, 0, 0)
         start_date_2 = datetime.datetime(2013, 10, 6, 0, 0, 0)
         camera = self.random_camera()
-        telescope_1 = self.random_telescope()
-        telescope_2 = (telescope_1 + 1) % len(self.telescope_names)
+        telescope_1 = min(self.telescope_names)
+        telescope_2 = max(self.telescope_names)
 
         UpdateHardware(cursor).update(camera, telescope_1,
                 update_time=lambda: start_date_1)
