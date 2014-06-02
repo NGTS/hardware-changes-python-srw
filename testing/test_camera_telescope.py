@@ -5,7 +5,7 @@ import MySQLdb
 from test_helper import DatabaseTester
 from hardware_changes.datastore import UpdateHardware, NGTSDatabaseIntegrityError
 
-class TestViews(DatabaseTester):
+class TestCameraTelescope(DatabaseTester):
     def test_with_one_update(self, cursor):
         start_date = datetime.datetime(2013, 10, 5, 0, 0, 0)
         camera = self.random_camera()
