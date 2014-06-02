@@ -6,7 +6,6 @@ from test_helper import DatabaseTester
 from hardware_changes.datastore import UpdateHardware, NGTSDatabaseIntegrityError
 
 class TestCameraTelescope(DatabaseTester):
-    @pytest.mark.xfail
     def test_with_one_update(self, cursor):
         start_date = datetime.datetime(2013, 10, 5, 0, 0, 0)
         camera = self.random_camera()
@@ -25,7 +24,6 @@ class TestCameraTelescope(DatabaseTester):
                 (camera, telescope, start_date),
                 )
 
-    @pytest.mark.xfail
     def test_with_two_updates(self, cursor):
         start_date_1 = datetime.datetime(2013, 10, 5, 0, 0, 0)
         start_date_2 = datetime.datetime(2013, 10, 6, 0, 0, 0)
@@ -47,7 +45,6 @@ class TestCameraTelescope(DatabaseTester):
                 (camera, telescope, start_date_2),
                 )
 
-    @pytest.mark.xfail
     def test_two_updates_with_different_telescopes(self, cursor):
         start_date_1 = datetime.datetime(2013, 10, 5, 0, 0, 0)
         start_date_2 = datetime.datetime(2013, 10, 6, 0, 0, 0)

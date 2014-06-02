@@ -83,5 +83,6 @@ create table camera_telescope (
     foreign key (camera_id)
     references camera(id),
     foreign key (telescope_id)
-    references telescope(id)
+    references telescope(id),
+    unique index unique_camera_id (camera_id)
 );

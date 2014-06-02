@@ -32,6 +32,10 @@ class UpdateHardware(object):
         camera_id = self.get_id('camera', camera_name)
         telescope_id = self.get_id('telescope', telescope_name)
 
+        self.update_history_table(camera_id, telescope_id, update_time)
+        self.update_current_table(camera_id, telescope_id, update_time)
+
+    def update_history_table(self, camera_id, telescope_id, update_time):
         self.cursor.execute('''update camera_telescope_history set end_date = %s
         where camera_id = %s
         and telescope_id = %s
@@ -41,3 +45,12 @@ class UpdateHardware(object):
         (camera_id, telescope_id, start_date)
         values (%s, %s, %s)''', (camera_id, telescope_id, update_time()))
 
+    def update_current_table(self, camera_id, telescope_id, update_time):
+        self.cursor.execute('''insert into camera_telescope
+        (camera_id, telescope_id, start_date)
+        values (%s, %s, %s)
+        on duplicate key update
+        telescope_id=%s,
+        start_date=%s''',
+        (camera_id, telescope_id, update_time(),
+            telescope_id, update_time()))
