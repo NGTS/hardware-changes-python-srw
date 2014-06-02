@@ -73,9 +73,11 @@ create table camera_focuser_history (
     references focuser(id)
 );
 
--- Create views
-create view camera_telescope 
-(id, camera_id, telescope_id, start_date)
-as select id, camera_id, telescope_id, start_date
-from camera_telescope_history
-where end_date is null;
+-- Simple tables holding the most up to date state
+drop table if exists camera_telescope;
+create table camera_telescope (
+    id integer primary key auto_increment,
+    camera_id integer not null,
+    telescope_id integer not null,
+    start_date datetime not null
+);
