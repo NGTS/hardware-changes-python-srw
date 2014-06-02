@@ -65,3 +65,28 @@ class TestCameraTelescope(DatabaseTester):
         assert cursor.fetchall() == (
                 (camera, telescope_2, start_date_2),
                 )
+
+    def test_multiple_cameras(self, cursor):
+        start_date_1 = datetime.datetime(2013, 10, 5, 0, 0, 0)
+        start_date_2 = datetime.datetime(2013, 10, 6, 0, 0, 0)
+        camera_1 = min(self.camera_names)
+        camera_2 = max(self.camera_names)
+        telescope_1 = min(self.telescope_names)
+        telescope_2 = max(self.telescope_names)
+
+        UpdateHardware(cursor).update(camera_1, telescope_1,
+                update_time=lambda: start_date_1)
+        UpdateHardware(cursor).update(camera_2, telescope_2,
+                update_time=lambda: start_date_2)
+
+        cursor.execute('''select camera_name, telescope_name, start_date
+        from camera_telescope
+        join camera on camera.id = camera_telescope.camera_id
+        join telescope on telescope.id = camera_telescope.telescope_id
+        order by start_date asc''')
+
+        assert cursor.fetchall() == (
+                (camera_1, telescope_1, start_date_1),
+                (camera_2, telescope_2, start_date_2),
+                )
+
