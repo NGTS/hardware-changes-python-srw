@@ -3,7 +3,8 @@ import pytest
 import pymysql
 
 from test_helper import DatabaseTester
-from hardware_changes.datastore import UpdateHardware, NGTSDatabaseIntegrityError
+from hardware_changes.datastore import (UpdateHardware,
+        NGTSDatabaseIntegrityError)
 
 class TestCameraTelescopeHistory(DatabaseTester):
     def test_update_succeeds(self, cursor):
@@ -64,16 +65,19 @@ class TestCameraTelescopeHistory(DatabaseTester):
         bad_camera_id = 10101
         assert bad_camera_id not in self.camera_names
         with pytest.raises(NGTSDatabaseIntegrityError):
-            UpdateHardware(cursor).update(bad_camera_id, self.random_telescope())
+            UpdateHardware(cursor).update(
+                    bad_camera_id, self.random_telescope()
+                    )
 
     def test_database_validations(self, cursor):
         '''
-        This test has to bypass the interface, and checks the triggers from the database
-        validations
+        This test has to bypass the interface, and checks the triggers from the 
+        database validations
         '''
         start_date = datetime.datetime.now()
         bad_id = 10101
-        assert bad_id not in self.telescope_names and bad_id not in self.camera_names
+        assert (bad_id not in self.telescope_names and 
+                bad_id not in self.camera_names)
 
         for (camera_id, telescope_id) in zip(
                 [bad_id, self.random_telescope()],

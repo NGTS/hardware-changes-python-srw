@@ -18,8 +18,8 @@ def initialise_database():
     This is stored in the sql script `hardware_changes/data/schema.sql`
     '''
     print("Cleaning database")
-    os.system("mysql -u {user} -h {host} -t < hardware_changes/data/schema.sql".format(
-        user=DB_USER, host=DB_HOST))
+    os.system("mysql -u {user} -h {host} -t < hardware_changes/data/schema.sql"
+            .format(user=DB_USER, host=DB_HOST))
     print("Done")
 
 class DatabaseTester(object):
@@ -34,9 +34,11 @@ class DatabaseTester(object):
 
         # Insert all of the cameras
         with cls.connection as cursor:
-            cursor.executemany('''insert into camera (camera_name) values (%s)''',
+            cursor.executemany('''insert into camera (camera_name)
+                    values (%s)''',
                     [(c, ) for c in cls.camera_names])
-            cursor.executemany('''insert into telescope (telescope_name) values (%s)''',
+            cursor.executemany('''insert into telescope (telescope_name)
+                    values (%s)''',
                     [(t, ) for t in cls.telescope_names])
             cls.connection.commit()
 
@@ -61,10 +63,13 @@ class DatabaseTester(object):
         return random.choice(self.telescope_names)
 
     def camera_telescope_history_contents(self, cursor):
-        cursor.execute('''select camera_name, telescope_name, start_date, end_date
+        cursor.execute('''select
+                camera_name, telescope_name, start_date, end_date
                 from camera_telescope_history
-                join camera on camera.id = camera_telescope_history.camera_id
-                join telescope on telescope.id = camera_telescope_history.telescope_id
+                join camera
+                on camera.id = camera_telescope_history.camera_id
+                join telescope
+                on telescope.id = camera_telescope_history.telescope_id
                 order by start_date asc''')
         return cursor.fetchall()
 

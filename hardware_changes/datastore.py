@@ -9,21 +9,26 @@ class UpdateHardware(object):
 
     def get_id(self, table_name, name_value):
         '''
-        Retrieve the id of the piece of hardware given in `table_name` with the "name"
-        attribute of the object is given in `name_value`.
+        Retrieve the id of the piece of hardware given in `table_name`
+        with the "name" attribute of the object is given in `name_value`.
         '''
         name_name = '{0}_name'.format(table_name)
-        self.cursor.execute('''select id from {table_name} where {name_name} = %s limit 1'''.format(
+        self.cursor.execute('''select id from {table_name}
+                where {name_name} = %s limit 1'''.format(
             table_name=table_name, name_name=name_name), (name_value, ))
         query_results = self.cursor.fetchone()
         if query_results:
             return query_results[0]
         else:
-            raise NGTSDatabaseIntegrityError("Invalid camera {0} supplied".format(name_value))
+            raise NGTSDatabaseIntegrityError(
+                    "Invalid camera {0} supplied".format(name_value)
+                    )
 
-    def update(self, camera_name, telescope_name, update_time=datetime.datetime.now):
+    def update(self, camera_name, telescope_name,
+            update_time=datetime.datetime.now):
         '''
-        Move the camera known as `camera_name` to the telescope known as `telescope_name`.
+        Move the camera known as `camera_name` to the telescope known as
+        `telescope_name`.
 
         The update time defaults to now, but can be specified e.g.
 
@@ -36,7 +41,8 @@ class UpdateHardware(object):
         self.update_current_table(camera_id, telescope_id, update_time)
 
     def update_history_table(self, camera_id, telescope_id, update_time):
-        self.cursor.execute('''update camera_telescope_history set end_date = %s
+        self.cursor.execute('''update camera_telescope_history
+        set end_date = %s
         where camera_id = %s
         and telescope_id = %s
         and end_date is null''', (update_time(), camera_id, telescope_id))
