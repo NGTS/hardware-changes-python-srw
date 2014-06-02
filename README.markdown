@@ -13,3 +13,5 @@ For development, the procfile lists the processes, one for running the web serve
 3. `foreman start`
 
 This should give a live-reloading flask development server.
+
+*Currently this project requires python2.7 and 2.7 only*
