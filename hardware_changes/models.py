@@ -29,21 +29,7 @@ class RenderView(object):
 class Camera(RenderView):
 
     BLANK_CAMERA_ID = "blank-camera"
-    IDS = sorted([
-            13338,
-            13339,
-            13340,
-            13341,
-            13342,
-            14028,
-            14029,
-            14030,
-            14031,
-            14032,
-            14033,
-            14034,
-            14035,
-            ])
+    IDS = sorted([800 + value for value in range(1, 13)])
     TEMPLATE = "camera_settings.html"
 
     FORM_TYPES = {
