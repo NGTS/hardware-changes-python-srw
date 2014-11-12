@@ -3,3 +3,5 @@ venv
 modules/
 .cache
 .tox
+*.pyc
+*.egg-info
